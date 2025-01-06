@@ -1,9 +1,11 @@
 'use client'
 
+import { useState } from 'react'
+import { useRouter } from 'next/navigation'
 import { z } from 'zod'
-
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { toast } from 'sonner'
 
 import {
   Form,
@@ -15,11 +17,16 @@ import {
 } from '../ui/form'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
+import { authClient } from '@/lib/auth-client'
 
 export const LoginForm = () => {
+  const router = useRouter()
+
+  const [loading, setLoading] = useState(false)
+
   const formSchema = z.object({
     email: z.string().email(),
-    password: z.string().min(6),
+    password: z.string().min(8),
   })
 
   const form = useForm({
@@ -30,8 +37,27 @@ export const LoginForm = () => {
     },
   })
 
-  const handleSubmit = form.handleSubmit((data) => {
-    console.log(data)
+  const handleSubmit = form.handleSubmit(async (data) => {
+    await authClient.signIn.email(
+      {
+        email: data.email,
+        password: data.password,
+      },
+      {
+        onRequest: () => {
+          setLoading(true)
+        },
+        onSuccess: () => {
+          toast.success('Logged in')
+          setLoading(false)
+          router.push('/documents')
+        },
+        onError: (ctx) => {
+          setLoading(false)
+          toast.error(ctx.error.message)
+        },
+      },
+    )
   })
 
   return (
@@ -69,7 +95,7 @@ export const LoginForm = () => {
             </FormItem>
           )}
         />
-        <Button className="w-full" type="submit">
+        <Button className="w-full" type="submit" disabled={loading}>
           Login
         </Button>
       </form>
