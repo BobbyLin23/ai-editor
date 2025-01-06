@@ -1,5 +1,6 @@
 import type { Config } from 'tailwindcss'
 import animate from 'tailwindcss-animate'
+import { iconsPlugin, getIconCollections } from '@egoist/tailwindcss-icons'
 
 export default {
   darkMode: ['class'],
@@ -59,5 +60,10 @@ export default {
       },
     },
   },
-  plugins: [animate],
+  plugins: [
+    animate,
+    iconsPlugin({
+      collections: getIconCollections(['mdi']),
+    }),
+  ],
 } satisfies Config
