@@ -5,8 +5,8 @@ import './globals.css'
 import { ThemeProvider } from '@/components/theme-provider'
 import { Toaster } from '@/components/ui/sonner'
 
-const interSans = Inter({
-  variable: '--font-geist-sans',
+const sans = Inter({
+  weight: '500',
   subsets: ['latin'],
 })
 
@@ -22,9 +22,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <body
-        className={`${interSans.variable} h-screen min-h-screen antialiased`}
-      >
+      <body className={`${sans.className} h-screen min-h-screen antialiased`}>
         <ThemeProvider
           attribute="class"
           defaultTheme="system"
