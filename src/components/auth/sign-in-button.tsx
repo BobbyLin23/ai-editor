@@ -8,6 +8,7 @@ import {
   DialogContent,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from '../ui/dialog'
 import { AuthCard } from './auth-card'
 
@@ -24,6 +25,7 @@ export const SignInButton = ({ mode, children }: Props) => {
         <DialogContent className="w-96 p-0">
           <DialogHeader>
             <DialogTitle className="hidden"></DialogTitle>
+            <DialogDescription className="hidden"></DialogDescription>
           </DialogHeader>
           <AuthCard />
         </DialogContent>
